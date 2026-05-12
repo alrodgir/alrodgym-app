@@ -6,11 +6,13 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography, spacing, radius } from '../theme';
+import { colors, useTheme, useThemeColors, typography, spacing, radius } from '../theme';
 import { Card, MedalBadge } from '../components';
 import { activeUser, USERS, MEDALS, userMedals } from '../data';
 
 export default function ProfileScreen() {
+  const { theme: currentTheme, themeId, setTheme, themeList } = useTheme();
+  const colors = useThemeColors();
   const user = activeUser;
   const [mode, setMode] = useState(user.mode);
   const [routine, setRoutine] = useState(user.routine);
@@ -80,6 +82,24 @@ export default function ProfileScreen() {
         <Text style={styles.sectionTitle}>CONFIGURACIÓN</Text>
 
         <Card style={{ marginHorizontal: 20 }}>
+          <Text style={styles.configLabel}>TEMA VISUAL</Text>
+          <View style={styles.configOptions}>
+            {themeList.map(t => (
+              <TouchableOpacity
+                key={t.id}
+                style={[styles.configBtn, themeId === t.id && styles.configBtnActive]}
+                onPress={() => setTheme(t.id)}
+              >
+                <View style={[styles.colorDot, { backgroundColor: t.colors.primary }]} />
+                <Text style={[styles.configBtnText, themeId === t.id && { color: '#000' }]}>
+                  {t.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View style={styles.divider} />
+
           <Text style={styles.configLabel}>RUTINA ACTIVA</Text>
           <View style={styles.configOptions}>
             <TouchableOpacity

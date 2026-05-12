@@ -6,11 +6,12 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography, spacing, radius } from '../theme';
+import { colors, useThemeColors, typography, spacing, radius } from '../theme';
 import { Card, MedalBadge } from '../components';
 import { MEDALS, userMedals } from '../data';
 
 export default function BadgesScreen() {
+  const colors = useThemeColors();
   const [selectedMedal, setSelectedMedal] = useState(null);
   const unlockedCount = userMedals.length;
   const progress = (unlockedCount / MEDALS.length) * 100;

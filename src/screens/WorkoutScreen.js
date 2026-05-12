@@ -6,7 +6,7 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography, spacing, radius } from '../theme';
+import { colors, useThemeColors, typography, spacing, radius } from '../theme';
 import { Card, PrimaryButton, SetRow } from '../components';
 import { TODAY } from '../data';
 
@@ -54,7 +54,8 @@ function Timer({ initial = 90 }) {
   );
 }
 
-export default function WorkoutScreen() {
+function WorkoutScreen() {
+  const colors = useThemeColors();
   const exercise = TODAY.currentExercise;
   const [sets, setSets] = useState(
     exercise.sets.map((s, i) => ({ ...s, number: i + 1 }))

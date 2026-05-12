@@ -6,11 +6,12 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography, spacing, radius } from '../theme';
+import { colors, useThemeColors, typography, spacing, radius } from '../theme';
 import { Card, DayCard } from '../components';
 import { ROUTINES, activeUser } from '../data';
 
 export default function PlanScreen() {
+  const colors = useThemeColors();
   const routine = ROUTINES[activeUser.routine];
   const [selectedDay, setSelectedDay] = useState(
     routine.days.findIndex(d => d.type !== 'rest')

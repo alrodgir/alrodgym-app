@@ -6,7 +6,7 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography, spacing, radius } from '../theme';
+import { colors, useThemeColors, typography, spacing, radius } from '../theme';
 import {
   Card, MetricCard, PrimaryButton, ProgressRing, SetRow,
 } from '../components';
@@ -14,6 +14,7 @@ import { TODAY, activeUser, DAILY_MOBILITY } from '../data';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function DashboardScreen({ navigation }) {
+  const colors = useThemeColors();
   const insets = useSafeAreaInsets();
   const [mobility, setMobility] = useState(DAILY_MOBILITY);
   const today = TODAY;

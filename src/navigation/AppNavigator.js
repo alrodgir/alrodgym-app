@@ -1,45 +1,59 @@
-// Navegación inferior con 5 tabs
-// Basada en el Figma
-
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography } from '../theme';
+import { typography } from '../theme';
+import { useTheme } from '../theme/ThemeContext';
 
 import DashboardScreen from '../screens/DashboardScreen';
 import WorkoutScreen from '../screens/WorkoutScreen';
 import PlanScreen from '../screens/PlanScreen';
 import ProgressScreen from '../screens/ProgressScreen';
-import BadgesScreen from '../screens/BadgesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
-function TabIcon({ name, focused }) {
+function TabIcon({ name, focused, c }) {
   return (
-    <View style={styles.tabIconContainer}>
-      <Ionicons
-        name={name}
-        size={22}
-        color={focused ? colors.primary : colors.textMuted}
-      />
-      {focused && <View style={styles.activeDot} />}
+    <View style={tabIconStyles.container}>
+      <Ionicons name={name} size={22} color={focused ? c.primary : c.textMuted} />
+      {focused && <View style={[tabIconStyles.activeDot, { backgroundColor: c.primary }]} />}
     </View>
   );
 }
 
+const tabIconStyles = StyleSheet.create({
+  container: { alignItems: 'center' },
+  activeDot: { width: 4, height: 4, borderRadius: 2, marginTop: 2 },
+});
+
 export default function AppNavigator() {
+  const { theme } = useTheme();
+  const c = theme.colors;
+
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarStyle: styles.tabBar,
-          tabBarActiveTintColor: colors.primary,
-          tabBarInactiveTintColor: colors.textMuted,
-          tabBarLabelStyle: styles.tabLabel,
+          tabBarStyle: {
+            backgroundColor: c.surface + 'E6',
+            borderTopWidth: 0.5,
+            borderTopColor: c.border || 'rgba(255,255,255,0.06)',
+            paddingTop: 4,
+            height: 70,
+            paddingBottom: 16,
+            position: 'absolute',
+            elevation: 0,
+          },
+          tabBarActiveTintColor: c.primary,
+          tabBarInactiveTintColor: c.textMuted,
+          tabBarLabelStyle: {
+            fontFamily: 'SpaceGrotesk_700Bold',
+            fontSize: 10,
+            letterSpacing: 0.5,
+          },
           tabBarShowLabel: true,
         }}
       >
@@ -47,7 +61,7 @@ export default function AppNavigator() {
           name="Home"
           component={DashboardScreen}
           options={{
-            tabBarIcon: ({ focused }) => <TabIcon name="home" focused={focused} />,
+            tabBarIcon: ({ focused }) => <TabIcon name="home" focused={focused} c={c} />,
             tabBarLabel: 'Home',
           }}
         />
@@ -55,7 +69,7 @@ export default function AppNavigator() {
           name="Workout"
           component={WorkoutScreen}
           options={{
-            tabBarIcon: ({ focused }) => <TabIcon name="barbell" focused={focused} />,
+            tabBarIcon: ({ focused }) => <TabIcon name="barbell" focused={focused} c={c} />,
             tabBarLabel: 'Entreno',
           }}
         />
@@ -63,7 +77,7 @@ export default function AppNavigator() {
           name="Plan"
           component={PlanScreen}
           options={{
-            tabBarIcon: ({ focused }) => <TabIcon name="calendar" focused={focused} />,
+            tabBarIcon: ({ focused }) => <TabIcon name="calendar" focused={focused} c={c} />,
             tabBarLabel: 'Plan',
           }}
         />
@@ -71,7 +85,7 @@ export default function AppNavigator() {
           name="Progress"
           component={ProgressScreen}
           options={{
-            tabBarIcon: ({ focused }) => <TabIcon name="stats-chart" focused={focused} />,
+            tabBarIcon: ({ focused }) => <TabIcon name="stats-chart" focused={focused} c={c} />,
             tabBarLabel: 'Progreso',
           }}
         />
@@ -79,7 +93,7 @@ export default function AppNavigator() {
           name="Profile"
           component={ProfileScreen}
           options={{
-            tabBarIcon: ({ focused }) => <TabIcon name="person" focused={focused} />,
+            tabBarIcon: ({ focused }) => <TabIcon name="person" focused={focused} c={c} />,
             tabBarLabel: 'Perfil',
           }}
         />
@@ -87,31 +101,3 @@ export default function AppNavigator() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: colors.navBackground + 'E6',
-    borderTopWidth: 0.5,
-    borderTopColor: colors.borderLight,
-    paddingTop: 4,
-    height: 70,
-    paddingBottom: 16,
-    position: 'absolute',
-    elevation: 0,
-  },
-  tabLabel: {
-    fontFamily: 'SpaceGrotesk_700Bold',
-    fontSize: 10,
-    letterSpacing: 0.5,
-  },
-  tabIconContainer: {
-    alignItems: 'center',
-  },
-  activeDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: colors.primary,
-    marginTop: 2,
-  },
-});

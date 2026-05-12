@@ -6,7 +6,7 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, typography, spacing, radius } from '../theme';
+import { colors, useThemeColors, typography, spacing, radius } from '../theme';
 import { Card } from '../components';
 import { workoutHistory } from '../data';
 
@@ -14,6 +14,7 @@ const PERIODS = ['1M', '3M', '6M', '1A', 'TODO'];
 const LIFTS = ['Press Banca', 'Sentadilla', 'Peso Muerto'];
 
 export default function ProgressScreen() {
+  const colors = useThemeColors();
   const [selectedLift, setSelectedLift] = useState(0);
   const [period, setPeriod] = useState('3M');
   const [expandedWorkout, setExpandedWorkout] = useState(null);
